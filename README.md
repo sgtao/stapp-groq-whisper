@@ -11,6 +11,10 @@ Groq APIを使って Whisperアプリを立ち上げてみる
 ### Setup
 ```sh
 poetry install
+# if install main package, execute following: # previously --no-dev
+# poetry install --only main
+#
+# to run tasks on poetry-shell.
 poetry shell
 ```
 
