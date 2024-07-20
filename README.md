@@ -1,5 +1,5 @@
-# stpyapp-template
-[streamlit](https://streamlit.io/)のアプリ開発するためのテンプレートを作ってみる
+# stapp-groq-whisper
+Groq APIを使って Whisperアプリを立ち上げてみる
 
 ## コンテンツ
 - サンプルコード（[streamlit-example](https://github.com/streamlit/streamlit-example)）を追加
