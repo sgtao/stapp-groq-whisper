@@ -1518,6 +1518,20 @@ watchdog = {version = ">=2.1.5,<5", markers = "platform_system != \"Darwin\""}
 snowflake = ["snowflake-connector-python (>=2.8.0)", "snowflake-snowpark-python (>=0.9.0)"]
 
 [[package]]
+name = "streamlit-audiorec"
+version = "0.1.3"
+description = "Record audio from the user's microphone in apps that are deployed to the web. (via Browser Media-API) [GitHub ☆ 160+: steamlit-audio-recorder]"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "streamlit-audiorec-0.1.3.tar.gz", hash = "sha256:0d1bf9490a7cd2c90529262f309a59fa566f0b2e83eecf03f26e5c42d241eb51"},
+    {file = "streamlit_audiorec-0.1.3-py3-none-any.whl", hash = "sha256:ade3e880ed072733e129438f06c40516304598c7439ecbf8406dbdcd6bd4ac66"},
+]
+
+[package.dependencies]
+streamlit = ">=0.63"
+
+[[package]]
 name = "taskipy"
 version = "1.13.0"
 description = "tasks runner for python projects"
@@ -1688,4 +1702,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "dd0d8ea3a20581400b82beae953de6b2d354e8016f97bc2b3d603d520136b035"
+content-hash = "48784aa9f3ffe41cedcd2f896eba01a22cb75ef27f9ef1af8d9d0012036f43c5"
