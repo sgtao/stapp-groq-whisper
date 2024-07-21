@@ -104,6 +104,26 @@ def transcribe_audio(audio_file):
         return ""
 
 
+def transcribe_audio_with_prompt(audio_file, append_prompt=""):
+    prompt = f"Specify context or spelling. {append_prompt}"
+    print(f"Retry transcript with prompt:${prompt}")
+  
+    try:
+        client = Groq(api_key=st.session_state.groq_api_key)
+        transcription = client.audio.transcriptions.create(
+            file=audio_file,
+            model="whisper-large-v3",
+            prompt=prompt,
+            response_format="json",  # Optional
+            language="en",  # Optional
+            temperature=0.0,  # Optional
+        )
+        print(transcription.text)
+        return transcription.text
+    except Exception as e:
+        st.error(f"エラーが発生しました: {str(e)}")
+        return ""
+
 def groq_whisper():
     st.title("Groq Whisper App")
 
@@ -129,13 +149,25 @@ def groq_whisper():
         st.session_state.wav_audio_data = st_audiorec()
 
         if st.session_state.wav_audio_data is not None:
-            st.audio(st.session_state.wav_audio_data, format="audio/wav")
+            # st.audio(st.session_state.wav_audio_data, format="audio/wav")
             if st.button("文字起こしを開始"):
                 wav_file = record_audio_file(st.session_state.wav_audio_data)
+                transcript = ""
                 with open(wav_file, "rb") as wave_data:
                     transcript = transcribe_audio(wave_data)
                     st.write(transcript)
-
+                    if transcript != "":
+                        st.session_state.transcript = transcript
+            if "transcript" in st.session_state:
+                if st.button("再トライ：文字起こし"):
+                    wav_file = record_audio_file(st.session_state.wav_audio_data)
+                    with open(wav_file, "rb") as wave_data:
+                        transcript = transcribe_audio_with_prompt(
+                            wave_data,
+                            st.session_state.transcript,
+                        )
+                        st.write(transcript)
+                  
     elif input_method == "URL指定":
         url = st.text_input("音声ファイルのURLを入力してください")
         if url:
