@@ -34,6 +34,12 @@ def download_audio(url):
         return None
 
 
+# ウィジェットを操作したときのコールバック関数
+def on_change_clear_state():
+    if "transcript" in st.session_state:
+        st.session_state.transcript = ""
+
+
 def groq_whisper():
     st.title("Simple Groq Whisper App")
     st.markdown(
@@ -43,8 +49,9 @@ def groq_whisper():
     sidebar_key_and_model()
 
     input_method = st.radio(
-        "Please select a voice input method. 入力方法を選択してください",
-        ["File-Upload", "Microphone-Record", "Specify-URL"],
+        label="Please select a voice input method. 入力方法を選択してください",
+        options=["File-Upload", "Microphone-Record", "Specify-URL"],
+        on_change=on_change_clear_state,
     )
 
     if input_method == "File-Upload":
@@ -56,7 +63,9 @@ def groq_whisper():
             st.audio(uploaded_file)
             if st.button("Start transcription. 文字起こしを開始"):
                 transcript = transcribe_audio(uploaded_file)
-                st.write(transcript)
+                if transcript != "":
+                    st.write(transcript)
+                    st.session_state.transcript = transcript
 
     elif input_method == "Microphone-Record":
         st.session_state.wav_audio_data = st_audiorec()
@@ -68,8 +77,8 @@ def groq_whisper():
                 transcript = ""
                 with open(wav_file, "rb") as wave_data:
                     transcript = transcribe_audio(wave_data)
-                    st.write(transcript)
                     if transcript != "":
+                        st.write(transcript)
                         st.session_state.transcript = transcript
             if "transcript" in st.session_state:
                 if st.button("Retry Transcript with 1st Result."):
@@ -85,8 +94,8 @@ def groq_whisper():
 
     elif input_method == "Specify-URL":
         url = st.text_input(
-            "Please enter the URL of the audio file (wav file).",
-            "音声ファイル(wavファイル)のURLを入力してください",
+            label="Please enter the URL of the audio file (wav file).",
+            placeholder="音声ファイル(wavファイル)のURLを入力してください",
         )
         if url:
             download_file = download_audio(url)
@@ -94,7 +103,9 @@ def groq_whisper():
                 st.audio(audio_file)
                 if st.button("Start transcription. 文字起こしを開始"):
                     transcript = transcribe_audio(audio_file)
-                    st.write(transcript)
+                    if transcript != "":
+                        st.write(transcript)
+                        st.session_state.transcript = transcript
 
 
 groq_whisper()
