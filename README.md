@@ -3,6 +3,7 @@ Groq APIを使って Whisperアプリを立ち上げてみる
 
 ## コンテンツ
 - サンプルコード（[streamlit-example](https://github.com/streamlit/streamlit-example)）を追加
+- [Demo site](https://stapp-groq-whisper-nri4uidhbqpqcgi62tgjkn.streamlit.app/)
 
 ## Usage
 - [poetry cli](https://cocoatomo.github.io/poetry-ja/cli/)を利用する
