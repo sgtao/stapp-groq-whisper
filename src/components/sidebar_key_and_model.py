@@ -52,7 +52,7 @@ def sidebar_key_and_model():
             value=groq_api_key,
         )
         groq_api_key = st.session_state.groq_api_key
-        "[Get an Groq API key](https://console.groq.com/keys)"
+        st.markdown("[Get an Groq API key](https://console.groq.com/keys)")
 
         # Select the model
         model = ModelSelector()
