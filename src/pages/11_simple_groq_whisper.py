@@ -22,7 +22,7 @@ class ModelSelector:
             st.selectbox of Models
         """
         with st.sidebar:
-            st.sidebar.title("ModelSelector")
+            st.sidebar.title("Chat Model")
             return st.selectbox(
                 "Select a model:", self.models, label_visibility="collapsed"
             )
@@ -125,7 +125,7 @@ def transcribe_audio_with_prompt(audio_file, append_prompt=""):
         return ""
 
 def groq_whisper():
-    st.title("Groq Whisper App")
+    st.title("Simple Groq Whisper App")
 
     sidebar_key_and_model()
 
