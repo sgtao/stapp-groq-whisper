@@ -36,8 +36,9 @@ def download_audio(url):
 
 def groq_whisper():
     st.title("Simple Groq Whisper App")
-    st.write("Speech data transcription using Grop's Whisper-API.")
-    st.write("GropのWhisper-APIを使って、音声データ文字起こしを行います")
+    st.markdown(
+        "The application uses Grop's `whisper-large-v3` to transcribe audio."
+    )
 
     sidebar_key_and_model()
 
