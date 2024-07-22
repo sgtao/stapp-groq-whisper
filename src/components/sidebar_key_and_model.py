@@ -18,7 +18,7 @@ class ModelSelector:
             st.selectbox of Models
         """
         with st.sidebar:
-            st.sidebar.title("Chat Model")
+            st.sidebar.title("Chat Model Selector")
             return st.selectbox(
                 "Select a model:", self.models, label_visibility="collapsed"
             )

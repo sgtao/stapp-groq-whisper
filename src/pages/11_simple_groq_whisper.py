@@ -6,6 +6,7 @@ import requests
 from st_audiorec import st_audiorec
 
 from components.sidebar_key_and_model import sidebar_key_and_model
+from components.selector_language import selector_language
 from functions.transcribe_audio import transcribe_audio
 
 
@@ -53,6 +54,10 @@ def groq_whisper():
         on_change=on_change_clear_state,
     )
 
+    output_language = selector_language()
+    prompt = f"Specify context or spelling. Transcribe in {output_language}."
+    st.markdown(f"Transcribe Prompt: **{prompt}**")
+
     if input_method == "File-Upload":
         uploaded_file = st.file_uploader(
             "Upload audio file. 音声ファイルをアップロードしてください",
@@ -61,7 +66,7 @@ def groq_whisper():
         if uploaded_file is not None:
             st.audio(uploaded_file)
             if st.button("Start transcription. 文字起こしを開始"):
-                transcript = transcribe_audio(audio_data=uploaded_file)
+                transcript = transcribe_audio(uploaded_file, prompt)
                 if transcript != "":
                     st.write(transcript)
                     st.session_state.transcript = transcript
@@ -75,7 +80,7 @@ def groq_whisper():
                 wav_file = record_audio_file(st.session_state.wav_audio_data)
                 transcript = ""
                 with open(wav_file, "rb") as wave_data:
-                    transcript = transcribe_audio(audio_data=wave_data)
+                    transcript = transcribe_audio(wave_data, prompt)
                     if transcript != "":
                         st.write(transcript)
                         st.session_state.transcript = transcript
@@ -90,7 +95,7 @@ def groq_whisper():
             with open(download_file, "rb") as audio_file:
                 st.audio(audio_file)
                 if st.button("Start transcription. 文字起こしを開始"):
-                    transcript = transcribe_audio(audio_data=audio_file)
+                    transcript = transcribe_audio(audio_file, prompt)
                     if transcript != "":
                         st.write(transcript)
                         st.session_state.transcript = transcript
