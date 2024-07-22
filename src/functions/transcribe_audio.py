@@ -3,19 +3,28 @@ from groq import Groq
 import streamlit as st
 
 
-def transcribe_audio(audio_file):
+def transcribe_audio(audio_data, prompt=""):
+    if audio_data is None:
+        st.error("cannot find audio data")
+        return
+
+    if prompt == "":
+        transcript_prompt = "Specify context or spelling"
+    else:
+        transcript_prompt = prompt
+
     try:
         client = Groq(api_key=st.session_state.groq_api_key)
 
         transcription = client.audio.transcriptions.create(
-            file=audio_file,
+            file=audio_data,
             model="whisper-large-v3",
-            prompt="Specify context or spelling",  # Optional
+            prompt=transcript_prompt,  # Optional
             response_format="json",  # Optional
             language="en",  # Optional
             temperature=0.0,  # Optional
         )
-        print(transcription.text)
+        # print(transcription.text)
         return transcription.text
     except Exception as e:
         st.error(f"エラーが発生しました: {str(e)}")
