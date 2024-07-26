@@ -6,7 +6,7 @@ import requests
 from st_audiorec import st_audiorec
 
 from components.sidebar_key_and_model import sidebar_key_and_model
-from components.selector_language import selector_language
+from components.language_selector import language_selector
 from functions.transcribe_audio import transcribe_audio
 
 
@@ -54,8 +54,9 @@ def groq_whisper():
         on_change=on_change_clear_state,
     )
 
-    output_language = selector_language()
-    prompt = f"Specify context or spelling. Transcribe in {output_language}."
+    output_language = language_selector()
+    prompt = f"Specify context or spelling in {output_language.language}."
+    lang = output_language.lang_code
     st.markdown(f"Transcribe Prompt: **{prompt}**")
 
     if input_method == "File-Upload":
@@ -66,7 +67,7 @@ def groq_whisper():
         if uploaded_file is not None:
             st.audio(uploaded_file)
             if st.button("Start transcription. 文字起こしを開始"):
-                transcript = transcribe_audio(uploaded_file, prompt)
+                transcript = transcribe_audio(uploaded_file, prompt, lang)
                 if transcript != "":
                     st.write(transcript)
                     st.session_state.transcript = transcript
@@ -80,7 +81,7 @@ def groq_whisper():
                 wav_file = record_audio_file(st.session_state.wav_audio_data)
                 transcript = ""
                 with open(wav_file, "rb") as wave_data:
-                    transcript = transcribe_audio(wave_data, prompt)
+                    transcript = transcribe_audio(wave_data, prompt, lang)
                     if transcript != "":
                         st.write(transcript)
                         st.session_state.transcript = transcript
@@ -95,7 +96,7 @@ def groq_whisper():
             with open(download_file, "rb") as audio_file:
                 st.audio(audio_file)
                 if st.button("Start transcription. 文字起こしを開始"):
-                    transcript = transcribe_audio(audio_file, prompt)
+                    transcript = transcribe_audio(audio_file, prompt, lang)
                     if transcript != "":
                         st.write(transcript)
                         st.session_state.transcript = transcript

@@ -3,7 +3,7 @@ from groq import Groq
 import streamlit as st
 
 
-def transcribe_audio(audio_data, prompt=""):
+def transcribe_audio(audio_data, prompt="", lang="en"):
     if audio_data is None:
         st.error("cannot find audio data")
         return
@@ -21,7 +21,7 @@ def transcribe_audio(audio_data, prompt=""):
             model="whisper-large-v3",
             prompt=transcript_prompt,  # Optional
             response_format="json",  # Optional
-            language="en",  # Optional
+            language=lang,  # Optional
             temperature=0.0,  # Optional
         )
         # print(transcription.text)
