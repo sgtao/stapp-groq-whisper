@@ -28,9 +28,7 @@ def download_audio(url):
             temp_audio.write(response.content)
             return temp_audio.name
     else:
-        st.error(
-            "Fail to download file. URLからの音声ダウンロードに失敗しました。"
-        )
+        st.error("Fail to download file form URL.")
         return None
 
 
@@ -49,7 +47,7 @@ def groq_whisper():
     sidebar_key_and_model()
 
     input_method = st.radio(
-        label="Please select a voice input method. 入力方法を選択してください",
+        label="Please select audio input method.",
         options=["File-Upload", "Microphone-Record", "Specify-URL"],
         on_change=on_change_clear_state,
     )
@@ -61,12 +59,12 @@ def groq_whisper():
 
     if input_method == "File-Upload":
         uploaded_file = st.file_uploader(
-            "Upload audio file. 音声ファイルをアップロードしてください",
+            "Upload audio file.",
             type=["wav", "mp3", "m4a"],
         )
         if uploaded_file is not None:
             st.audio(uploaded_file)
-            if st.button("Start transcription. 文字起こしを開始"):
+            if st.button("Start transcription."):
                 transcript = transcribe_audio(uploaded_file, prompt, lang)
                 if transcript != "":
                     st.write(transcript)
@@ -77,7 +75,7 @@ def groq_whisper():
 
         if st.session_state.wav_audio_data is not None:
             # st.audio(st.session_state.wav_audio_data, format="audio/wav")
-            if st.button("Start transcription. 文字起こしを開始"):
+            if st.button("Start transcription."):
                 wav_file = record_audio_file(st.session_state.wav_audio_data)
                 transcript = ""
                 with open(wav_file, "rb") as wave_data:
@@ -89,13 +87,13 @@ def groq_whisper():
     elif input_method == "Specify-URL":
         url = st.text_input(
             label="Please enter the URL of the audio file (wav file).",
-            placeholder="音声ファイル(wavファイル)のURLを入力してください",
+            placeholder="input URL of wave file",
         )
         if url:
             download_file = download_audio(url)
             with open(download_file, "rb") as audio_file:
                 st.audio(audio_file)
-                if st.button("Start transcription. 文字起こしを開始"):
+                if st.button("Start transcription."):
                     transcript = transcribe_audio(audio_file, prompt, lang)
                     if transcript != "":
                         st.write(transcript)
