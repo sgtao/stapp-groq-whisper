@@ -1,4 +1,4 @@
-# a11_groq_whisper.py
+# 11_simple_groq_whisper.
 import tempfile
 
 import streamlit as st
