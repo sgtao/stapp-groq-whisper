@@ -3,13 +3,13 @@ import streamlit as st
 
 _LANGUAGES = {
     "en": "english",  # 英語
+    "ja": "japanese",  # 日本語
     "zh": "chinese",  # 中国語
     "de": "german",  # ドイツ語
     "es": "spanish",  # スペイン語
     "ru": "russian",  # ロシア語
     "ko": "korean",  # 韓国語
     "fr": "french",  # フランス語
-    "ja": "japanese",  # 日本語
     "pt": "portuguese",  # ポルトガル語
     "tr": "turkish",  # トルコ語
     "pl": "polish",  # ポーランド語
