@@ -3,6 +3,7 @@ import streamlit as st
 from groq import Groq
 
 from components.sidebar_key_and_model import sidebar_key_and_model
+from components.modal_voice_input import modal_voice_input
 
 
 # ページの設定
@@ -39,9 +40,21 @@ else:
             with st.chat_message(message["role"]):
                 st.markdown(message["content"])
 
+with st.sidebar:
+    st.subheader("Audio Input:")
+    if st.button("Record audio?"):
+        modal_voice_input()
 
-if question := st.chat_input("Ask something"):
+    # 音声入力の結果をst.session_state.transcript_shownに保存する
+    if "transcript_shown" not in st.session_state:
+        st.session_state.transcript_shown = ""
 
+    # 音声入力の結果を表示する
+    st.write("Transcript: (copy from click 📋 icon)")
+    st.code(st.session_state.transcript_shown)
+
+# 音声入力の結果をst.chat_inputのデフォルト値として使用する
+if question := st.chat_input("Ask something", disabled=not groq_api_key):
     # promptの作成
     user_prompt = ""
     if st.session_state.groq_chat_history == []:
